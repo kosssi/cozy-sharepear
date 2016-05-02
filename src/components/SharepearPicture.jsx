@@ -10,8 +10,8 @@ export default class SharepearPicture extends React.Component {
   getStyle() {
     return {
       backgroundImage: 'url(' + this.props.url + ')',
-      width: this.props.width + 'px',
-      height: this.props.height + 'px'
+      width: this.props.calculatedWidth + 'px',
+      height: this.props.calculatedHeight + 'px'
     };
   }
   render() {

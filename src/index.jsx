@@ -21,13 +21,7 @@ const pictures = List.of(
     Map({id: 12, url: 'images/12.jpg', width: 800, height: 600})
 );
 
-const viewportWidth = window.innerWidth - 40;
-const idealHeight = parseInt(window.innerHeight / 2, 10);
-
 ReactDOM.render(
-  <SharepearApp
-    viewportWidth={viewportWidth}
-    idealHeight={idealHeight}
-    pictures={pictures} />,
+  <SharepearApp pictures={pictures} />,
   document.getElementById('app')
 );

@@ -14,6 +14,9 @@ export default class SharepearAlbum extends React.Component {
     this.setPicturesWithRatio();
     this.setPicturesWithSizes();
   }
+  componentWillReceiveProps() {
+    this.setPicturesWithSizes();
+  }
   setPicturesWithRatio() {
     this.state.pictures = List();
     this.props.pictures.forEach((picture) => {
@@ -45,8 +48,8 @@ export default class SharepearAlbum extends React.Component {
       for (let i=indexStart; i < indexEnd; i++) {
         var picture = this.state.pictures.get(i);
         this.state.pictures = this.state.pictures.set(i, picture
-          .set('calculatedWidth', parseInt(this.props.viewportWidth / summedRatios * picture.get('ratio'), 10))
-          .set('calculatedHeight', parseInt(this.props.viewportWidth / summedRatios, 10))
+          .set('calculatedWidth', Math.round(this.props.viewportWidth / summedRatios * picture.get('ratio') * 100) / 100)
+          .set('calculatedHeight', Math.round(this.props.viewportWidth / summedRatios * 100) / 100)
         );
       }
       indexStart = indexEnd;

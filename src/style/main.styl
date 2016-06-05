@@ -7,21 +7,22 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   vertical-align baseline
 
 body
-  background-color gray
-  overflow-y scroll
+  background-color white
 
 body *
   box-sizing border-box
 
 .sharepear
+  padding 6px
   .album
-    padding 0 6px
-    margin 6px 0
-    overflow hidden
-    .picture
-      float left
-      position relative
-      background-position center
-      background-size 100% 100%
-      background-color #77c4a5
-      border 2px gray solid
+    .picture-grid
+      .picture
+        float left
+        position relative
+        background-position center
+        background-size 100% 100%
+        background-color #77c4a5
+        border 2px white solid
+
+.active
+  color green

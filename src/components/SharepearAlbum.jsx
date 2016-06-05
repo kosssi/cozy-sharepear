@@ -1,72 +1,46 @@
 import React from 'react';
-import SharepearPicture from './SharepearPicture';
+import SharepearPictureGrid from './SharepearPictureGrid';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import LinearPartitioning from 'linear-partitioning';
-import {List} from 'immutable';
 
-export default class SharepearAlbum extends React.Component {
+class SharepearAlbum extends React.Component {
   constructor(props) {
     super(props);
     this.shouldComponentUpdate =
       PureRenderMixin.shouldComponentUpdate.bind(this);
 
     this.state = {};
-    this.setPicturesWithRatio();
-    this.setPicturesWithSizes();
   }
   componentWillReceiveProps() {
-    this.setPicturesWithSizes();
+    this.setGridSizes();
   }
-  setPicturesWithRatio() {
-    this.state.pictures = List();
-    this.props.pictures.forEach((picture) => {
-      this.state.pictures = this.state.pictures.push(
-        picture.set('ratio', picture.get('width') / picture.get('height'))
-      );
-    });
+  getGridSizes() {
+    console.log("getGridSizes");
+    return {
+      gridWidth: document.body.clientWidth - 2 * 6 - 15,
+      gridHeight: window.innerHeight
+    };
   }
-  setPicturesWithSizes() {
-    const summedWidth = this.state.pictures.reduce((sum, picture) =>
-      sum += picture.get('ratio') * this.props.idealHeight
-    , 0);
-    const rows = Math.round(summedWidth / this.props.viewportWidth);
-    const weights = this.state.pictures.map((picture) =>
-      parseInt(picture.get('ratio') * 100)
-    );
-    const partitions = LinearPartitioning(weights.toArray(), rows);
-
-    var indexStart = 0;
-    partitions.forEach((row) => {
-      var indexEnd = indexStart + row.length;
-      const summedRatios = this.state.pictures
-        .filter((picture, index) => {
-          return index >= indexStart && index < indexEnd
-        })
-        .reduce((sum, picture) => {
-          return sum += picture.get('ratio');
-        }, 0);
-      for (let i=indexStart; i < indexEnd; i++) {
-        var picture = this.state.pictures.get(i);
-        this.state.pictures = this.state.pictures.set(i, picture
-          .set('calculatedWidth', Math.round(this.props.viewportWidth / summedRatios * picture.get('ratio') * 100) / 100)
-          .set('calculatedHeight', Math.round(this.props.viewportWidth / summedRatios * 100) / 100)
-        );
-      }
-      indexStart = indexEnd;
-    });
+  setGridSizes() {
+    this.setState(this.getGridSizes());
+  }
+  componentWillMount() {
+    this.setGridSizes();
+  }
+  componentDidMount() {
+    window.addEventListener("resize", this.setGridSizes.bind(this));
+  }
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.setGridSizes.bind(this));
   }
   render() {
     return <section className="album">
-      {this.state.pictures.map(picture =>
-        <SharepearPicture
-          key={picture.get('id')}
-          url={picture.get('url')}
-          width={picture.get('width')}
-          height={picture.get('height')}
-          calculatedWidth={picture.get('calculatedWidth')}
-          calculatedHeight={picture.get('calculatedHeight')}
-          ratio={picture.get('ratio')} />
-        )}
+      <h1>{this.props.title}</h1>
+      <SharepearPictureGrid
+        pictures={this.props.pictures}
+        gridWidth={this.state.gridWidth}
+        gridHeight={this.state.gridHeight} />
     </section>
   }
-};
+}
+
+export default SharepearAlbum;

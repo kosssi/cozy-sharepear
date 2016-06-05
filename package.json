@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --require ./test/setup.jsx 'test/**/*.@(js|jsx)'",
     "test:watch": "npm run test -- --watch --watch-extensions jsx",
-    "server": "webpack-dev-server"
+    "server": "webpack-dev-server --history-api-fallback"
   },
   "babel": {
     "presets": [
@@ -21,7 +21,8 @@
     "immutable": "3.8.1",
     "linear-partitioning": "0.3.1",
     "react": "15.0.1",
-    "react-dom": "15.0.1"
+    "react-dom": "15.0.1",
+    "react-router": "^2.4.0"
   },
   "devDependencies": {
     "babel-core": "6.7.7",

@@ -3,7 +3,6 @@ import SharepearPicture from './SharepearPicture';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import LinearPartitioning from 'linear-partitioning';
 import {List} from 'immutable';
-import scrollbarWidth from 'scrollbar-width';
 
 class SharepearPictureGrid extends React.Component {
   constructor(props) {
